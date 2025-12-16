@@ -444,7 +444,7 @@ h1, h2, h3, h4, h5 {
     width: 100%;
     max-width: 600px;
     text-align: center;
-    box-shadow: var(--shadow);
+    box-shadow: var(--gold);
     transition: transform 0.3s ease;
 }
 
@@ -542,7 +542,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .countdown-item {
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(000, 000, 00, 0.0);
     border-radius: 10px;
     padding: 12px;
     min-width: 70px;
