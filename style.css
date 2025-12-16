@@ -1,16 +1,12 @@
 :root {
-    --primary: #d4af37; /* Gold */
-    --secondary: #1a3a8f; /* Biru gelap */
-    --accent: #2e7d32; /* Hijau */
-    --dark: #000000; /* Hitam */
-    --light: #f8f4e9;
+    --black: #000000;
+    --blue: #1e3a8a;
+    --dark-gray: #4a5568;
+    --gold: #d4af37;
     --white: #ffffff;
     --shadow: 0 5px 15px rgba(0, 0, 0, 0);
-    --gold: rgba(212, 175, 55, 0.8);
-    --atm-gradient: linear-gradient(135deg, #000000, #1a1a1a); /* Hitam */
-    --atm-blue: linear-gradient(135deg, #1a3a8f, #2a4ba0); /* Biru */
-    --atm-green: linear-gradient(135deg, #2e7d32, #43a047); /* Hijau */
-    --atm-gold: linear-gradient(135deg, #d4af37, #f4c542); /* Gold */
+    --atm-gradient: linear-gradient(135deg, #1a3a8f, #2a4ba0);
+    --atm-silver: linear-gradient(135deg, #c0c0c0, #e0e0e0);
 }
 
 * {
@@ -25,14 +21,13 @@ html {
 
 body {
     font-family: 'Open Sans', sans-serif;
-    color: var(--white);
+    color: var(--black);
     background-color: transparent;
     overflow-x: hidden;
     line-height: 1.4;
     font-size: 12px;
     padding-bottom: 60px;
     position: relative;
-    background: var(--dark);
 }
 
 /* Video Background untuk Cover */
@@ -44,7 +39,6 @@ body {
     height: 100%;
     z-index: -3;
     overflow: hidden;
-    background: var(--dark);
 }
 
 .video-background video {
@@ -57,7 +51,7 @@ body {
     height: auto;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    background: var(--dark);
+    background: var(--black);
 }
 
 .video-overlay {
@@ -66,7 +60,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0);
 }
 
 /* SVG Background Container untuk Section Lain */
@@ -92,7 +86,6 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: var(--dark);
 }
 
 #bg-pembuka {
@@ -120,7 +113,7 @@ body {
 }
 
 .section-bg.active {
-    opacity: 0.9;
+    opacity: 1;
 }
 
 /* Font Styles */
@@ -140,20 +133,19 @@ body {
 .couple-names {
     font-family: 'Moontime', cursive;
     font-size: 1.8rem;
-    color: var(--primary);
+    color: var(--gold);
 }
 
 .arabic {
     font-family: 'Amiri', serif;
     font-size: 1.1rem;
     line-height: 1.6;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 h1, h2, h3, h4, h5 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
-    color: var(--white);
 }
 
 .section {
@@ -169,7 +161,6 @@ h1, h2, h3, h4, h5 {
     opacity: 1;
     transform: translateX(0);
     transition: transform 0.8s ease, opacity 0.8s ease;
-    color: var(--white);
 }
 
 .section.hidden {
@@ -209,8 +200,8 @@ h1, h2, h3, h4, h5 {
     align-items: center;
     gap: 6px;
     padding: 8px 20px;
-    background: var(--primary);
-    color: var(--white);
+    background: var(--gold);
+    color: var(--black);
     border: none;
     border-radius: 50px;
     font-weight: 500;
@@ -223,19 +214,20 @@ h1, h2, h3, h4, h5 {
 }
 
 .btn:hover {
-    background: var(--accent);
+    background: var(--blue);
+    color: var(--white);
     transform: translateY(-2px);
 }
 
 .btn-outline {
     background: transparent;
-    border: 1px solid var(--primary);
-    color: var(--primary);
+    border: 1px solid var(--gold);
+    color: var(--gold);
 }
 
 .btn-outline:hover {
-    background: var(--primary);
-    color: var(--white);
+    background: var(--gold);
+    color: var(--black);
 }
 
 /* Text Animation */
@@ -279,7 +271,7 @@ h1, h2, h3, h4, h5 {
     z-index: 2;
     position: relative;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     backdrop-filter: blur(3px);
     margin-bottom: 40px;
@@ -297,7 +289,7 @@ h1, h2, h3, h4, h5 {
 
 .cover-divider {
     margin: 10px 0;
-    color: var(--primary);
+    color: var(--gold);
     animation: fadeIn 0.8s ease-out 0.3s forwards;
     opacity: 0;
 }
@@ -306,7 +298,7 @@ h1, h2, h3, h4, h5 {
     font-size: 0.9rem;
     margin: 15px 0;
     padding: 10px 15px;
-    border-left: 2px solid var(--primary);
+    border-left: 2px solid var(--gold);
     display: inline-block;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
@@ -317,8 +309,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .cover-btn {
-    background: var(--primary);
-    border: 1px solid var(--primary);
+    background: var(--gold);
+    border: 1px solid var(--gold);
     font-size: 0.9rem;
     padding: 10px 25px;
     animation: fadeIn 0.8s ease-out 0.8s forwards;
@@ -341,7 +333,7 @@ h1, h2, h3, h4, h5 {
 .section-title {
     font-size: 1.6rem;
     margin-bottom: 30px;
-    color: var(--primary);
+    color: var(--blue);
     text-align: center;
     position: relative;
     font-family: 'Open Sans', sans-serif;
@@ -356,7 +348,7 @@ h1, h2, h3, h4, h5 {
     transform: translateX(-50%);
     width: 50px;
     height: 2px;
-    background: var(--primary);
+    background: var(--gold);
     border-radius: 1px;
 }
 
@@ -372,12 +364,13 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 .couple-names {
     margin: 25px 0;
     font-weight: 600;
+    color: var(--blue);
 }
 
 .invitation-text {
@@ -385,7 +378,7 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.5;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 /* Detail Pengantin */
@@ -398,7 +391,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .couple-info {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
     padding: 20px;
     width: 100%;
@@ -408,37 +401,35 @@ h1, h2, h3, h4, h5 {
     transition: transform 0.3s ease;
     position: relative;
     border: 1px solid rgba(212, 175, 55, 0.3);
-    backdrop-filter: blur(5px);
 }
 
 .couple-info:hover {
     transform: translateY(-5px);
-    border-color: var(--primary);
 }
 
 .couple-icon {
     margin-bottom: 10px;
-    color: var(--primary);
+    color: var(--gold);
     font-size: 1.5rem;
 }
 
 .couple-name {
     font-size: 1.1rem;
     margin-bottom: 5px;
-    color: var(--primary);
+    color: var(--blue);
     font-family: 'Moontime', cursive;
 }
 
 .couple-parents {
     font-size: 0.8rem;
-    color: var(--white);
+    color: var(--dark-gray);
     margin-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
 }
 
 .couple-bio {
     font-size: 0.75rem;
-    color: #ddd;
+    color: var(--dark-gray);
     line-height: 1.4;
     font-style: italic;
 }
@@ -453,7 +444,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .event-card {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.85);
     border-radius: 15px;
     padding: 20px;
     width: 100%;
@@ -462,28 +453,26 @@ h1, h2, h3, h4, h5 {
     box-shadow: var(--shadow);
     transition: transform 0.3s ease;
     border: 1px solid rgba(212, 175, 55, 0.3);
-    backdrop-filter: blur(5px);
 }
 
 .event-card.combined-event {
-    border: 2px solid var(--primary);
+    border: 2px solid var(--gold);
 }
 
 .event-card:hover {
     transform: translateY(-3px);
-    border-color: var(--primary);
 }
 
 .event-icon {
     font-size: 1.8rem;
-    color: var(--primary);
+    color: var(--gold);
     margin-bottom: 15px;
 }
 
 .event-title {
     font-size: 1.3rem;
     margin-bottom: 15px;
-    color: var(--primary);
+    color: var(--blue);
 }
 
 .event-time {
@@ -499,7 +488,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .time-section {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.9);
     padding: 12px;
     border-radius: 10px;
     box-shadow: var(--shadow);
@@ -509,7 +498,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .time-section h4 {
-    color: var(--primary);
+    color: var(--blue);
     margin-bottom: 8px;
     font-size: 0.95rem;
 }
@@ -521,11 +510,11 @@ h1, h2, h3, h4, h5 {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 .event-location {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.9);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -534,14 +523,14 @@ h1, h2, h3, h4, h5 {
 }
 
 .event-location h4 {
-    color: var(--primary);
+    color: var(--blue);
     margin-bottom: 8px;
     font-size: 0.95rem;
 }
 
 .event-location .address {
     font-style: italic;
-    color: var(--white);
+    color: var(--dark-gray);
     margin-top: 5px;
     font-size: 0.85rem;
 }
@@ -563,32 +552,31 @@ h1, h2, h3, h4, h5 {
 }
 
 .countdown-item {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.85);
     border-radius: 10px;
     padding: 12px;
     min-width: 70px;
-    border: 1px solid var(--primary);
-    backdrop-filter: blur(5px);
+    border: 1px solid var(--gold);
 }
 
 .countdown-number {
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 5px;
-    color: var(--primary);
+    color: var(--blue);
 }
 
 .countdown-label {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 .countdown-message {
     margin: 15px 0 25px;
     font-size: 0.95rem;
-    color: var(--white);
+    color: var(--dark-gray);
     font-style: italic;
 }
 
@@ -598,7 +586,7 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin: 0 auto 20px;
     line-height: 1.5;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 /* Amplop Digital - ATM Card Design */
@@ -609,7 +597,7 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 .atm-cards-container {
@@ -621,7 +609,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card {
-    background: var(--atm-blue);
+    background: var(--atm-gradient);
     border-radius: 15px;
     padding: 20px;
     width: 100%;
@@ -631,18 +619,16 @@ h1, h2, h3, h4, h5 {
     transition: transform 0.5s ease, box-shadow 0.5s ease;
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--primary);
 }
 
 .atm-card:nth-child(2) {
-    background: var(--atm-green);
-    color: var(--white);
+    background: var(--atm-silver);
+    color: var(--black);
 }
 
 .atm-card:hover {
     transform: translateY(-8px) rotateX(3deg);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-    border-color: var(--primary);
 }
 
 .atm-card::before {
@@ -681,7 +667,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card:nth-child(2) .atm-chip {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .atm-card-number {
@@ -730,7 +716,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card:nth-child(2) .atm-card-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .account-info {
@@ -757,9 +743,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card:nth-child(2) .atm-copy-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: var(--black);
 }
 
 .atm-copy-btn:hover {
@@ -771,12 +757,11 @@ h1, h2, h3, h4, h5 {
 .comment-form {
     max-width: 600px;
     margin: 20px auto 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.85);
     padding: 20px;
     border-radius: 15px;
     box-shadow: var(--shadow);
     border: 1px solid rgba(212, 175, 55, 0.3);
-    backdrop-filter: blur(5px);
 }
 
 .form-group {
@@ -786,18 +771,18 @@ h1, h2, h3, h4, h5 {
 .form-control {
     width: 100%;
     padding: 10px;
-    border: 1px solid rgba(212, 175, 55, 0.5);
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-family: 'Open Sans', sans-serif;
     font-size: 0.85rem;
     transition: border-color 0.3s ease;
-    background: rgba(0, 0, 0, 0.3);
-    color: var(--white);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--dark-gray);
 }
 
 .form-control:focus {
     outline: none;
-    border-color: var(--primary);
+    border-color: var(--gold);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
@@ -812,14 +797,13 @@ textarea.form-control {
 }
 
 .comment-item {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.85);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 15px;
     box-shadow: var(--shadow);
-    border-left: 3px solid var(--primary);
+    border-left: 3px solid var(--gold);
     animation: slideInFromLeft 0.5s ease-out;
-    backdrop-filter: blur(5px);
     border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
@@ -831,24 +815,24 @@ textarea.form-control {
 
 .comment-name {
     font-weight: 600;
-    color: var(--primary);
+    color: var(--blue);
     font-size: 0.9rem;
 }
 
 .comment-date {
-    color: #ccc;
+    color: var(--dark-gray);
     font-size: 0.75rem;
 }
 
 .comment-item p {
     font-size: 0.85rem;
     line-height: 1.4;
-    color: var(--white);
+    color: var(--dark-gray);
 }
 
 .comment-loading {
     text-align: center;
-    color: var(--primary);
+    color: var(--dark-gray);
     font-style: italic;
     padding: 20px;
     font-size: 0.9rem;
@@ -860,13 +844,13 @@ textarea.form-control {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     display: flex;
     justify-content: space-between;
     padding: 8px 5px;
-    box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    border-top: 1px solid var(--primary);
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
     height: 60px;
     backdrop-filter: blur(5px);
 }
@@ -876,7 +860,7 @@ textarea.form-control {
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: var(--white);
+    color: var(--dark-gray);
     padding: 6px 3px;
     border-radius: 10px;
     transition: all 0.3s ease;
@@ -905,8 +889,8 @@ textarea.form-control {
 }
 
 .nav-tab.active {
-    color: var(--primary);
-    background: rgba(212, 175, 55, 0.2);
+    color: var(--blue);
+    background: rgba(30, 58, 138, 0.1);
 }
 
 .nav-tab.active::after {
@@ -917,13 +901,13 @@ textarea.form-control {
     transform: translateX(-50%);
     width: 4px;
     height: 4px;
-    background: var(--primary);
+    background: var(--blue);
     border-radius: 50%;
 }
 
 .nav-tab:hover {
-    color: var(--primary);
-    background: rgba(212, 175, 55, 0.15);
+    color: var(--blue);
+    background: rgba(30, 58, 138, 0.15);
 }
 
 /* Hide bottom nav on cover */
@@ -940,8 +924,8 @@ textarea.form-control {
 }
 
 .music-btn {
-    background: var(--primary);
-    color: var(--dark);
+    background: var(--gold);
+    color: var(--black);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -949,14 +933,15 @@ textarea.form-control {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     overflow: hidden;
-    border: 2px solid var(--dark);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .music-btn:hover {
-    background: var(--accent);
+    background: var(--blue);
+    color: var(--white);
     transform: scale(1.05);
 }
 
@@ -969,7 +954,7 @@ textarea.form-control {
 
 .cassette-icon i {
     font-size: 30px;
-    color: var(--dark);
+    color: currentColor;
 }
 
 .cassette-center {
@@ -979,7 +964,7 @@ textarea.form-control {
     transform: translate(-50%, -50%);
     width: 12px;
     height: 12px;
-    background: var(--dark);
+    background: var(--black);
     border-radius: 50%;
     z-index: 1;
 }
@@ -998,18 +983,17 @@ textarea.form-control {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: var(--accent);
+    background: #4CAF50;
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
     display: none;
     align-items: center;
     gap: 10px;
     z-index: 10000;
     animation: slideInRight 0.5s, slideOutRight 0.5s 2.5s;
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid var(--primary);
 }
 
 .success-message.show {
