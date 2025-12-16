@@ -11,6 +11,7 @@ let database;
 let commentsRef;
 let currentSection = 'cover';
 let isTransitioning = false;
+let invitationOpened = false;
 
 // Tunggu Firebase siap
 function initializeFirebase() {
@@ -104,7 +105,7 @@ function displayCommentsFromFirebase() {
         console.error('Error loading comments:', error);
         $('#comments-container').html(`
             <div class="comment-item">
-                <p style="text-align: center; color: #777; font-style: italic;">
+                <p style="text-align: center; color: #ccc; font-style: italic;">
                     Gagal memuat ucapan. Silakan refresh halaman.
                 </p>
             </div>
@@ -120,7 +121,7 @@ function displayComments(comments) {
     if (comments.length === 0) {
         commentsContainer.html(`
             <div class="comment-item" data-aos="fade-up" data-aos-duration="500">
-                <p style="text-align: center; color: #777; font-style: italic;">
+                <p style="text-align: center; color: #ccc; font-style: italic;">
                     Belum ada ucapan. Jadilah yang pertama mengucapkan selamat!
                 </p>
             </div>
@@ -154,6 +155,11 @@ function animateTextElements() {
 // Transisi antar section dengan pola yang diminta
 function performSectionTransition(targetSectionId) {
     if (isTransitioning || currentSection === targetSectionId) return;
+    
+    // Cegah kembali ke cover setelah undangan dibuka
+    if (invitationOpened && targetSectionId === 'cover') {
+        return;
+    }
     
     isTransitioning = true;
     const currentSectionEl = $(`#${currentSection}`);
@@ -259,6 +265,21 @@ function updateVideoSize() {
         video.style.width = '100%';
         video.style.height = '100%';
         video.style.objectFit = 'cover';
+        
+        // Tambahkan event listener untuk error video
+        video.addEventListener('error', function() {
+            console.log('Video error, trying to reload...');
+            setTimeout(function() {
+                video.load();
+                video.play().catch(e => console.log('Video play failed:', e));
+            }, 1000);
+        });
+        
+        // Pastikan video tetap diputar
+        video.addEventListener('ended', function() {
+            video.currentTime = 0;
+            video.play().catch(e => console.log('Video replay failed:', e));
+        });
     }
 }
 
@@ -273,8 +294,26 @@ function updateSVGSize() {
     });
 }
 
+// Mencegah scroll di cover
+function preventScrollOnCover() {
+    if (currentSection === 'cover' && !invitationOpened) {
+        $('html, body').css({
+            'overflow': 'hidden',
+            'height': '100%'
+        });
+    } else {
+        $('html, body').css({
+            'overflow': 'auto',
+            'height': 'auto'
+        });
+    }
+}
+
 // Main function
 $(document).ready(function() {
+    // Mencegah scroll saat di cover
+    preventScrollOnCover();
+    
     // Initialize Firebase first
     initializeFirebase().then(() => {
         console.log('Firebase initialized successfully');
@@ -292,7 +331,7 @@ $(document).ready(function() {
         console.error('Firebase initialization failed:', error);
         $('#comments-container').html(`
             <div class="comment-item">
-                <p style="text-align: center; color: #777; font-style: italic;">
+                <p style="text-align: center; color: #ccc; font-style: italic;">
                     Mode offline. Ucapan tidak dapat dimuat.
                 </p>
             </div>
@@ -319,6 +358,12 @@ $(document).ready(function() {
             cassetteIcon.style.animationPlayState = 'running';
         }).catch(function(error) {
             console.log('Autoplay prevented:', error);
+            // Coba lagi dengan user interaction
+            document.addEventListener('click', function playAudioOnce() {
+                audio.play();
+                cassetteIcon.style.animationPlayState = 'running';
+                document.removeEventListener('click', playAudioOnce);
+            });
         });
     });
     
@@ -335,6 +380,12 @@ $(document).ready(function() {
     
     // Tombol buka undangan
     $('#open-invitation').click(function() {
+        // Tandai bahwa undangan sudah dibuka
+        invitationOpened = true;
+        
+        // Aktifkan scroll setelah undangan dibuka
+        preventScrollOnCover();
+        
         // Jalankan transisi ke section pembuka
         performSectionTransition('pembuka');
         
@@ -349,29 +400,43 @@ $(document).ready(function() {
     
     // Cek jika undangan sudah dibuka sebelumnya
     if (sessionStorage.getItem('undanganDibuka') === 'true') {
+        invitationOpened = true;
         $('#cover').addClass('hidden');
         $('#bottom-nav').show();
         currentSection = 'pembuka';
+        
+        // Aktifkan scroll
+        preventScrollOnCover();
         
         // Tampilkan background pembuka
         $('#bg-pembuka').addClass('active');
         $('#video-background').hide();
         
         // Putar musik otomatis jika sudah dibuka sebelumnya
-        audio.play().then(function() {
-            cassetteIcon.style.animationPlayState = 'running';
-        }).catch(function(error) {
-            console.log('Autoplay prevented:', error);
-        });
+        setTimeout(() => {
+            audio.play().then(function() {
+                cassetteIcon.style.animationPlayState = 'running';
+            }).catch(function(error) {
+                console.log('Autoplay prevented:', error);
+            });
+        }, 1000);
     } else {
         // Tampilkan video background di cover
         $('#video-background').show();
+        
+        // Cegah scroll di cover
+        preventScrollOnCover();
     }
     
     // Bottom Navigation dengan transisi
     $('.nav-tab').click(function(e) {
         e.preventDefault();
         var target = $(this).attr('href').substring(1);
+        
+        // Cegah navigasi ke cover setelah dibuka
+        if (invitationOpened && target === 'cover') {
+            return;
+        }
         
         // Update active tab
         $('.nav-tab').removeClass('active');
@@ -406,8 +471,8 @@ $(document).ready(function() {
         var startDate = '20251221T090000';
         var endDate = '20251221T140000';
         var title = 'Akad Nikah & Resepsi Hartini & Ahmad Yazidul Jihad';
-        var location = 'Kediaman Mempelai Wanita & Gedung Serba Guna, Jl. Merdeka No. 123, Jakarta Pusat';
-        var details = 'Akad Nikah: 09:00 WIB\nResepsi: 11:00-14:00 WIB\n\nAcara pernikahan Hartini & Ahmad Yazidul Jihad';
+        var location = 'Kediaman Mempelai Wanita, Dusun Krajan Desa Sukapura, Kecamatan Rawamerta - Karawang';
+        var details = 'Akad Nikah: 09:00 WIB\nResepsi: 08:00 - Selesai WIB\n\nAcara pernikahan Hartini & Ahmad Yazidul Jihad';
         
         var googleCalendarUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + 
             encodeURIComponent(title) + '&dates=' + startDate + '/' + endDate + 
@@ -477,9 +542,9 @@ $(document).ready(function() {
         var windowHeight = $(window).height();
         
         // Sembunyikan bottom nav di cover section (hanya jika cover belum dibuka)
-        if (scrollPosition < windowHeight * 0.8 && !sessionStorage.getItem('undanganDibuka')) {
+        if (scrollPosition < windowHeight * 0.8 && !invitationOpened) {
             $('#bottom-nav').fadeOut(300);
-        } else if (sessionStorage.getItem('undanganDibuka')) {
+        } else if (invitationOpened) {
             $('#bottom-nav').fadeIn(300);
         }
         
@@ -497,7 +562,7 @@ $(document).ready(function() {
     });
     
     // Sembunyikan bottom nav di awal (saat di cover dan belum dibuka)
-    if (!sessionStorage.getItem('undanganDibuka')) {
+    if (!invitationOpened) {
         $('#bottom-nav').hide();
     }
     
@@ -516,4 +581,12 @@ $(document).ready(function() {
     if (sessionStorage.getItem('undanganDibuka') === 'true') {
         $('#bg-pembuka').addClass('active');
     }
+    
+    // Pastikan video tetap berjalan
+    setInterval(function() {
+        const video = document.getElementById('cover-video');
+        if (video && video.paused && currentSection === 'cover') {
+            video.play().catch(e => console.log('Video autoplay failed:', e));
+        }
+    }, 3000);
 });
