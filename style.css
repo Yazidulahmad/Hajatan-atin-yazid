@@ -1,14 +1,16 @@
 :root {
-    --primary: #d4af37;
-    --secondary: #8b7355;
-    --accent: #c19a6b;
-    --dark: #2c2c2c;
+    --primary: #d4af37; /* Gold */
+    --secondary: #1a3a8f; /* Biru gelap */
+    --accent: #2e7d32; /* Hijau */
+    --dark: #000000; /* Hitam */
     --light: #f8f4e9;
     --white: #ffffff;
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.0);
-    --gold: rgba(0, 0, 0, 0.0);
-    --atm-gradient: linear-gradient(135deg, #1a3a8f, #2a4ba0);
-    --atm-silver: linear-gradient(135deg, #c0c0c0, #e0e0e0);
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0);
+    --gold: rgba(212, 175, 55, 0.8);
+    --atm-gradient: linear-gradient(135deg, #000000, #1a1a1a); /* Hitam */
+    --atm-blue: linear-gradient(135deg, #1a3a8f, #2a4ba0); /* Biru */
+    --atm-green: linear-gradient(135deg, #2e7d32, #43a047); /* Hijau */
+    --atm-gold: linear-gradient(135deg, #d4af37, #f4c542); /* Gold */
 }
 
 * {
@@ -23,13 +25,14 @@ html {
 
 body {
     font-family: 'Open Sans', sans-serif;
-    color: var(--dark);
+    color: var(--white);
     background-color: transparent;
     overflow-x: hidden;
     line-height: 1.4;
     font-size: 12px;
     padding-bottom: 60px;
     position: relative;
+    background: var(--dark);
 }
 
 /* Video Background untuk Cover */
@@ -41,6 +44,7 @@ body {
     height: 100%;
     z-index: -3;
     overflow: hidden;
+    background: var(--dark);
 }
 
 .video-background video {
@@ -53,6 +57,7 @@ body {
     height: auto;
     transform: translate(-50%, -50%);
     object-fit: cover;
+    background: var(--dark);
 }
 
 .video-overlay {
@@ -61,7 +66,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.0);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 /* SVG Background Container untuk Section Lain */
@@ -87,6 +92,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-color: var(--dark);
 }
 
 #bg-pembuka {
@@ -141,11 +147,13 @@ body {
     font-family: 'Amiri', serif;
     font-size: 1.1rem;
     line-height: 1.6;
+    color: var(--white);
 }
 
 h1, h2, h3, h4, h5 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
+    color: var(--white);
 }
 
 .section {
@@ -161,6 +169,7 @@ h1, h2, h3, h4, h5 {
     opacity: 1;
     transform: translateX(0);
     transition: transform 0.8s ease, opacity 0.8s ease;
+    color: var(--white);
 }
 
 .section.hidden {
@@ -214,7 +223,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .btn:hover {
-    background: var(--secondary);
+    background: var(--accent);
     transform: translateY(-2px);
 }
 
@@ -270,7 +279,7 @@ h1, h2, h3, h4, h5 {
     z-index: 2;
     position: relative;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.4);
     border-radius: 15px;
     backdrop-filter: blur(3px);
     margin-bottom: 40px;
@@ -304,6 +313,7 @@ h1, h2, h3, h4, h5 {
     animation: fadeIn 0.8s ease-out 0.6s forwards;
     opacity: 0;
     font-family: 'Open Sans', sans-serif;
+    color: var(--white);
 }
 
 .cover-btn {
@@ -331,7 +341,7 @@ h1, h2, h3, h4, h5 {
 .section-title {
     font-size: 1.6rem;
     margin-bottom: 30px;
-    color: var(--secondary);
+    color: var(--primary);
     text-align: center;
     position: relative;
     font-family: 'Open Sans', sans-serif;
@@ -362,6 +372,7 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    color: var(--white);
 }
 
 .couple-names {
@@ -374,6 +385,7 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.5;
+    color: var(--white);
 }
 
 /* Detail Pengantin */
@@ -386,7 +398,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .couple-info {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     padding: 20px;
     width: 100%;
@@ -395,10 +407,13 @@ h1, h2, h3, h4, h5 {
     box-shadow: var(--shadow);
     transition: transform 0.3s ease;
     position: relative;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    backdrop-filter: blur(5px);
 }
 
 .couple-info:hover {
     transform: translateY(-5px);
+    border-color: var(--primary);
 }
 
 .couple-icon {
@@ -410,20 +425,20 @@ h1, h2, h3, h4, h5 {
 .couple-name {
     font-size: 1.1rem;
     margin-bottom: 5px;
-    color: var(--secondary);
+    color: var(--primary);
     font-family: 'Moontime', cursive;
 }
 
 .couple-parents {
     font-size: 0.8rem;
-    color: var(--dark);
+    color: var(--white);
     margin-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
 }
 
 .couple-bio {
     font-size: 0.75rem;
-    color: #555;
+    color: #ddd;
     line-height: 1.4;
     font-style: italic;
 }
@@ -438,14 +453,16 @@ h1, h2, h3, h4, h5 {
 }
 
 .event-card {
-    background: rgba(000, 000, 000, 0.00);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     padding: 20px;
     width: 100%;
     max-width: 600px;
     text-align: center;
-    box-shadow: var(--gold);
+    box-shadow: var(--shadow);
     transition: transform 0.3s ease;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    backdrop-filter: blur(5px);
 }
 
 .event-card.combined-event {
@@ -454,6 +471,7 @@ h1, h2, h3, h4, h5 {
 
 .event-card:hover {
     transform: translateY(-3px);
+    border-color: var(--primary);
 }
 
 .event-icon {
@@ -465,7 +483,7 @@ h1, h2, h3, h4, h5 {
 .event-title {
     font-size: 1.3rem;
     margin-bottom: 15px;
-    color: var(--secondary);
+    color: var(--primary);
 }
 
 .event-time {
@@ -481,12 +499,13 @@ h1, h2, h3, h4, h5 {
 }
 
 .time-section {
-    background: var(--white);
+    background: rgba(0, 0, 0, 0.3);
     padding: 12px;
     border-radius: 10px;
     box-shadow: var(--shadow);
     flex: 1;
     min-width: 180px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .time-section h4 {
@@ -502,14 +521,16 @@ h1, h2, h3, h4, h5 {
     align-items: center;
     justify-content: center;
     gap: 6px;
+    color: var(--white);
 }
 
 .event-location {
-    background: var(--white);
+    background: rgba(0, 0, 0, 0.3);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
     box-shadow: var(--shadow);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .event-location h4 {
@@ -520,7 +541,7 @@ h1, h2, h3, h4, h5 {
 
 .event-location .address {
     font-style: italic;
-    color: var(--secondary);
+    color: var(--white);
     margin-top: 5px;
     font-size: 0.85rem;
 }
@@ -542,33 +563,32 @@ h1, h2, h3, h4, h5 {
 }
 
 .countdown-item {
-    background: rgba(000, 000, 00, 0.0);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 12px;
     min-width: 70px;
     border: 1px solid var(--primary);
+    backdrop-filter: blur(5px);
 }
 
 .countdown-number {
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 5px;
-    background: var(--dark);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary);
 }
 
 .countdown-label {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--secondary);
+    color: var(--white);
 }
 
 .countdown-message {
     margin: 15px 0 25px;
     font-size: 0.95rem;
-    color: var(--secondary);
+    color: var(--white);
     font-style: italic;
 }
 
@@ -578,6 +598,7 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin: 0 auto 20px;
     line-height: 1.5;
+    color: var(--white);
 }
 
 /* Amplop Digital - ATM Card Design */
@@ -588,6 +609,7 @@ h1, h2, h3, h4, h5 {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    color: var(--white);
 }
 
 .atm-cards-container {
@@ -599,7 +621,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card {
-    background: var(--atm-gradient);
+    background: var(--atm-blue);
     border-radius: 15px;
     padding: 20px;
     width: 100%;
@@ -609,16 +631,18 @@ h1, h2, h3, h4, h5 {
     transition: transform 0.5s ease, box-shadow 0.5s ease;
     position: relative;
     overflow: hidden;
+    border: 1px solid var(--primary);
 }
 
 .atm-card:nth-child(2) {
-    background: var(--atm-silver);
-    color: var(--dark);
+    background: var(--atm-green);
+    color: var(--white);
 }
 
 .atm-card:hover {
     transform: translateY(-8px) rotateX(3deg);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    border-color: var(--primary);
 }
 
 .atm-card::before {
@@ -657,7 +681,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card:nth-child(2) .atm-chip {
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .atm-card-number {
@@ -706,7 +730,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card:nth-child(2) .atm-card-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .account-info {
@@ -733,9 +757,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .atm-card:nth-child(2) .atm-copy-btn {
-    background: rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    color: var(--dark);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
 }
 
 .atm-copy-btn:hover {
@@ -747,10 +771,12 @@ h1, h2, h3, h4, h5 {
 .comment-form {
     max-width: 600px;
     margin: 20px auto 0;
-    background: rgba(248, 244, 233, 0.85);
+    background: rgba(0, 0, 0, 0.2);
     padding: 20px;
     border-radius: 15px;
     box-shadow: var(--shadow);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    backdrop-filter: blur(5px);
 }
 
 .form-group {
@@ -760,12 +786,13 @@ h1, h2, h3, h4, h5 {
 .form-control {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(212, 175, 55, 0.5);
     border-radius: 8px;
     font-family: 'Open Sans', sans-serif;
     font-size: 0.85rem;
     transition: border-color 0.3s ease;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--white);
 }
 
 .form-control:focus {
@@ -785,13 +812,15 @@ textarea.form-control {
 }
 
 .comment-item {
-    background: rgba(248, 244, 233, 0.85);
+    background: rgba(0, 0, 0, 0.2);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 15px;
     box-shadow: var(--shadow);
     border-left: 3px solid var(--primary);
     animation: slideInFromLeft 0.5s ease-out;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .comment-header {
@@ -802,23 +831,24 @@ textarea.form-control {
 
 .comment-name {
     font-weight: 600;
-    color: var(--secondary);
+    color: var(--primary);
     font-size: 0.9rem;
 }
 
 .comment-date {
-    color: #777;
+    color: #ccc;
     font-size: 0.75rem;
 }
 
 .comment-item p {
     font-size: 0.85rem;
     line-height: 1.4;
+    color: var(--white);
 }
 
 .comment-loading {
     text-align: center;
-    color: var(--secondary);
+    color: var(--primary);
     font-style: italic;
     padding: 20px;
     font-size: 0.9rem;
@@ -830,13 +860,13 @@ textarea.form-control {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.95);
     display: flex;
     justify-content: space-between;
     padding: 8px 5px;
-    box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    border-top: 1px solid var(--primary);
     height: 60px;
     backdrop-filter: blur(5px);
 }
@@ -846,7 +876,7 @@ textarea.form-control {
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: var(--dark);
+    color: var(--white);
     padding: 6px 3px;
     border-radius: 10px;
     transition: all 0.3s ease;
@@ -876,7 +906,7 @@ textarea.form-control {
 
 .nav-tab.active {
     color: var(--primary);
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(212, 175, 55, 0.2);
 }
 
 .nav-tab.active::after {
@@ -911,7 +941,7 @@ textarea.form-control {
 
 .music-btn {
     background: var(--primary);
-    color: var(--white);
+    color: var(--dark);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -919,13 +949,14 @@ textarea.form-control {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     overflow: hidden;
+    border: 2px solid var(--dark);
 }
 
 .music-btn:hover {
-    background: var(--secondary);
+    background: var(--accent);
     transform: scale(1.05);
 }
 
@@ -938,7 +969,7 @@ textarea.form-control {
 
 .cassette-icon i {
     font-size: 30px;
-    color: var(--white);
+    color: var(--dark);
 }
 
 .cassette-center {
@@ -967,17 +998,18 @@ textarea.form-control {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: #4CAF50;
+    background: var(--accent);
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     display: none;
     align-items: center;
     gap: 10px;
     z-index: 10000;
     animation: slideInRight 0.5s, slideOutRight 0.5s 2.5s;
     font-family: 'Open Sans', sans-serif;
+    border: 1px solid var(--primary);
 }
 
 .success-message.show {
