@@ -5,7 +5,7 @@
     --dark: #2c2c2c;
     --light: #f8f4e9;
     --white: #ffffff;
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.0);
     --gold: linear-gradient(135deg, #d4af37, #f9e076);
     --atm-gradient: linear-gradient(135deg, #1a3a8f, #2a4ba0);
     --atm-silver: linear-gradient(135deg, #c0c0c0, #e0e0e0);
@@ -61,7 +61,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.0);
 }
 
 /* SVG Background Container untuk Section Lain */
