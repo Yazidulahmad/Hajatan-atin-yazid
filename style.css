@@ -553,7 +553,7 @@ h1, h2, h3, h4, h5 {
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 5px;
-    background: var(--gold);
+    background: var(--dark);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
