@@ -11,7 +11,48 @@ let database;
 let commentsRef;
 let currentSection = 'cover';
 let isTransitioning = false;
-let invitationOpened = false;
+let isCoverOpened = false;
+
+// Fungsi untuk mencegah scroll
+function preventScroll(event) {
+    if (!isCoverOpened && currentSection === 'cover') {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
+}
+
+// Fungsi untuk mencegah scroll antar section
+function preventSectionScroll(event) {
+    if (isCoverOpened && currentSection !== 'cover') {
+        // Cegah scroll wheel
+        if (event.type === 'wheel') {
+            event.preventDefault();
+            return false;
+        }
+    }
+}
+
+// Blokir semua metode scroll
+function blockAllScrollMethods() {
+    // Blokir scroll wheel
+    document.addEventListener('wheel', preventScroll, { passive: false });
+    document.addEventListener('wheel', preventSectionScroll, { passive: false });
+    
+    // Blokir touch scroll
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+    document.addEventListener('touchmove', preventSectionScroll, { passive: false });
+    
+    // Blokir keyboard scroll
+    document.addEventListener('keydown', function(event) {
+        if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(event.keyCode)) {
+            if (!isCoverOpened && currentSection === 'cover') {
+                event.preventDefault();
+                return false;
+            }
+        }
+    });
+}
 
 // Tunggu Firebase siap
 function initializeFirebase() {
@@ -105,7 +146,7 @@ function displayCommentsFromFirebase() {
         console.error('Error loading comments:', error);
         $('#comments-container').html(`
             <div class="comment-item">
-                <p style="text-align: center; color: #ccc; font-style: italic;">
+                <p style="text-align: center; color: #777; font-style: italic;">
                     Gagal memuat ucapan. Silakan refresh halaman.
                 </p>
             </div>
@@ -121,7 +162,7 @@ function displayComments(comments) {
     if (comments.length === 0) {
         commentsContainer.html(`
             <div class="comment-item" data-aos="fade-up" data-aos-duration="500">
-                <p style="text-align: center; color: #ccc; font-style: italic;">
+                <p style="text-align: center; color: #777; font-style: italic;">
                     Belum ada ucapan. Jadilah yang pertama mengucapkan selamat!
                 </p>
             </div>
@@ -155,11 +196,6 @@ function animateTextElements() {
 // Transisi antar section dengan pola yang diminta
 function performSectionTransition(targetSectionId) {
     if (isTransitioning || currentSection === targetSectionId) return;
-    
-    // Cegah kembali ke cover setelah undangan dibuka
-    if (invitationOpened && targetSectionId === 'cover') {
-        return;
-    }
     
     isTransitioning = true;
     const currentSectionEl = $(`#${currentSection}`);
@@ -266,19 +302,18 @@ function updateVideoSize() {
         video.style.height = '100%';
         video.style.objectFit = 'cover';
         
-        // Tambahkan event listener untuk error video
+        // Tambahkan event listener untuk error handling
         video.addEventListener('error', function() {
-            console.log('Video error, trying to reload...');
-            setTimeout(function() {
-                video.load();
+            console.log('Video error, attempting to reload');
+            video.load();
+            setTimeout(() => {
                 video.play().catch(e => console.log('Video play failed:', e));
             }, 1000);
         });
         
-        // Pastikan video tetap diputar
-        video.addEventListener('ended', function() {
-            video.currentTime = 0;
-            video.play().catch(e => console.log('Video replay failed:', e));
+        // Pastikan video selalu diputar
+        video.addEventListener('pause', function() {
+            video.play().catch(e => console.log('Video auto-play prevented:', e));
         });
     }
 }
@@ -294,25 +329,10 @@ function updateSVGSize() {
     });
 }
 
-// Mencegah scroll di cover
-function preventScrollOnCover() {
-    if (currentSection === 'cover' && !invitationOpened) {
-        $('html, body').css({
-            'overflow': 'hidden',
-            'height': '100%'
-        });
-    } else {
-        $('html, body').css({
-            'overflow': 'auto',
-            'height': 'auto'
-        });
-    }
-}
-
 // Main function
 $(document).ready(function() {
-    // Mencegah scroll saat di cover
-    preventScrollOnCover();
+    // Blokir semua metode scroll
+    blockAllScrollMethods();
     
     // Initialize Firebase first
     initializeFirebase().then(() => {
@@ -331,7 +351,7 @@ $(document).ready(function() {
         console.error('Firebase initialization failed:', error);
         $('#comments-container').html(`
             <div class="comment-item">
-                <p style="text-align: center; color: #ccc; font-style: italic;">
+                <p style="text-align: center; color: #777; font-style: italic;">
                     Mode offline. Ucapan tidak dapat dimuat.
                 </p>
             </div>
@@ -350,6 +370,26 @@ $(document).ready(function() {
     var musicToggle = document.getElementById('music-toggle');
     var cassetteIcon = document.querySelector('.cassette-icon');
     
+    // Set video untuk selalu diputar
+    const video = document.getElementById('cover-video');
+    if (video) {
+        video.play().catch(function(error) {
+            console.log('Video autoplay prevented:', error);
+            // Coba lagi dengan user interaction
+            document.addEventListener('click', function playVideoOnce() {
+                video.play().catch(e => console.log('Still cannot play:', e));
+                document.removeEventListener('click', playVideoOnce);
+            });
+        });
+        
+        // Tambahkan interval untuk memastikan video tetap diputar
+        setInterval(() => {
+            if (video.paused && currentSection === 'cover') {
+                video.play().catch(e => console.log('Video restart failed:', e));
+            }
+        }, 3000);
+    }
+    
     // Autoplay musik saat tombol buka undangan ditekan
     $('#open-invitation').click(function() {
         // Putar musik otomatis
@@ -358,12 +398,6 @@ $(document).ready(function() {
             cassetteIcon.style.animationPlayState = 'running';
         }).catch(function(error) {
             console.log('Autoplay prevented:', error);
-            // Coba lagi dengan user interaction
-            document.addEventListener('click', function playAudioOnce() {
-                audio.play();
-                cassetteIcon.style.animationPlayState = 'running';
-                document.removeEventListener('click', playAudioOnce);
-            });
         });
     });
     
@@ -380,11 +414,8 @@ $(document).ready(function() {
     
     // Tombol buka undangan
     $('#open-invitation').click(function() {
-        // Tandai bahwa undangan sudah dibuka
-        invitationOpened = true;
-        
-        // Aktifkan scroll setelah undangan dibuka
-        preventScrollOnCover();
+        // Set flag bahwa cover sudah dibuka
+        isCoverOpened = true;
         
         // Jalankan transisi ke section pembuka
         performSectionTransition('pembuka');
@@ -396,47 +427,49 @@ $(document).ready(function() {
         
         // Set status bahwa undangan sudah dibuka
         sessionStorage.setItem('undanganDibuka', 'true');
+        
+        // Nonaktifkan scroll untuk cover
+        $('html, body').css({
+            'overflow': 'auto'
+        });
     });
     
     // Cek jika undangan sudah dibuka sebelumnya
     if (sessionStorage.getItem('undanganDibuka') === 'true') {
-        invitationOpened = true;
         $('#cover').addClass('hidden');
         $('#bottom-nav').show();
         currentSection = 'pembuka';
-        
-        // Aktifkan scroll
-        preventScrollOnCover();
+        isCoverOpened = true;
         
         // Tampilkan background pembuka
         $('#bg-pembuka').addClass('active');
         $('#video-background').hide();
         
         // Putar musik otomatis jika sudah dibuka sebelumnya
-        setTimeout(() => {
-            audio.play().then(function() {
-                cassetteIcon.style.animationPlayState = 'running';
-            }).catch(function(error) {
-                console.log('Autoplay prevented:', error);
-            });
-        }, 1000);
+        audio.play().then(function() {
+            cassetteIcon.style.animationPlayState = 'running';
+        }).catch(function(error) {
+            console.log('Autoplay prevented:', error);
+        });
+        
+        // Aktifkan scroll
+        $('html, body').css({
+            'overflow': 'auto'
+        });
     } else {
         // Tampilkan video background di cover
         $('#video-background').show();
         
-        // Cegah scroll di cover
-        preventScrollOnCover();
+        // Nonaktifkan scroll di cover
+        $('html, body').css({
+            'overflow': 'hidden'
+        });
     }
     
     // Bottom Navigation dengan transisi
     $('.nav-tab').click(function(e) {
         e.preventDefault();
         var target = $(this).attr('href').substring(1);
-        
-        // Cegah navigasi ke cover setelah dibuka
-        if (invitationOpened && target === 'cover') {
-            return;
-        }
         
         // Update active tab
         $('.nav-tab').removeClass('active');
@@ -471,8 +504,8 @@ $(document).ready(function() {
         var startDate = '20251221T090000';
         var endDate = '20251221T140000';
         var title = 'Akad Nikah & Resepsi Hartini & Ahmad Yazidul Jihad';
-        var location = 'Kediaman Mempelai Wanita, Dusun Krajan Desa Sukapura, Kecamatan Rawamerta - Karawang';
-        var details = 'Akad Nikah: 09:00 WIB\nResepsi: 08:00 - Selesai WIB\n\nAcara pernikahan Hartini & Ahmad Yazidul Jihad';
+        var location = 'Kediaman Mempelai Wanita & Gedung Serba Guna, Jl. Merdeka No. 123, Jakarta Pusat';
+        var details = 'Akad Nikah: 09:00 WIB\nResepsi: 11:00-14:00 WIB\n\nAcara pernikahan Hartini & Ahmad Yazidul Jihad';
         
         var googleCalendarUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + 
             encodeURIComponent(title) + '&dates=' + startDate + '/' + endDate + 
@@ -536,17 +569,10 @@ $(document).ready(function() {
             });
     });
     
-    // Deteksi scroll untuk mengaktifkan navigasi
+    // Deteksi scroll untuk mengaktifkan navigasi - hanya untuk visual feedback
     $(window).scroll(function() {
         var scrollPosition = $(window).scrollTop();
         var windowHeight = $(window).height();
-        
-        // Sembunyikan bottom nav di cover section (hanya jika cover belum dibuka)
-        if (scrollPosition < windowHeight * 0.8 && !invitationOpened) {
-            $('#bottom-nav').fadeOut(300);
-        } else if (invitationOpened) {
-            $('#bottom-nav').fadeIn(300);
-        }
         
         // Update active nav berdasarkan section yang terlihat
         $('.section:not(.hidden)').each(function() {
@@ -562,7 +588,7 @@ $(document).ready(function() {
     });
     
     // Sembunyikan bottom nav di awal (saat di cover dan belum dibuka)
-    if (!invitationOpened) {
+    if (!sessionStorage.getItem('undanganDibuka')) {
         $('#bottom-nav').hide();
     }
     
@@ -582,11 +608,11 @@ $(document).ready(function() {
         $('#bg-pembuka').addClass('active');
     }
     
-    // Pastikan video tetap berjalan
-    setInterval(function() {
-        const video = document.getElementById('cover-video');
-        if (video && video.paused && currentSection === 'cover') {
-            video.play().catch(e => console.log('Video autoplay failed:', e));
+    // Nonaktifkan klik pada cover untuk mencegah akses langsung
+    $('#cover').on('click', function(e) {
+        if (!isCoverOpened) {
+            e.stopPropagation();
+            return false;
         }
-    }, 3000);
+    });
 });
