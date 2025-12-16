@@ -6,7 +6,7 @@
     --light: #f8f4e9;
     --white: #ffffff;
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.0);
-    --gold: linear-gradient(135deg, #d4af37, #f9e076);
+    --gold: rgba(0, 0, 0, 0.0);
     --atm-gradient: linear-gradient(135deg, #1a3a8f, #2a4ba0);
     --atm-silver: linear-gradient(135deg, #c0c0c0, #e0e0e0);
 }
